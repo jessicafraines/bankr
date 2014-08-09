@@ -18,7 +18,8 @@ describe('Transaction', function(){
   });
 
   beforeEach(function(done){
-    cp.execFile(__dirname + '/../scripts/freshdb.sh', [db], {cwd:__dirname + '/../scripts'}, function(){
+    cp.execFile(__dirname + '/../scripts/freshdb.sh', [db], {cwd:__dirname + '/../scripts'}, function(err, stdout, stderr){
+      console.log(stdout, stderr);
       done();
     });
   });
