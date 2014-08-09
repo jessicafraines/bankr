@@ -10,7 +10,7 @@ var cp        = require('child_process');
 var db        = 'bankr-test';
 var Mongo     = require('mongodb');
 
-describe('Transfer', function(){
+describe('Account', function(){
   before(function(done){
     dbConnect(db, function(){
       done();
@@ -22,42 +22,42 @@ describe('Transfer', function(){
       done();
     });
   });
-
   describe('constructor', function(){
-    it('should create a new transfer', function(){
-      var obj = {amount:'50', date: '2014-8-8', fee: '25', 
-      toAccountId: Mongo.ObjectID().toString(), 
-      fromAccountId: Mongo.ObjectID().toString()};
-      var t = new Transfer(obj);
+    it('should create a new account', function(){
+      var obj = {name: 'Dakota Jane', photo: 'http://.123', accountType: 'savings', color: 'blue', 
+        dateCreated: '2012-8-8', pin: '1234', initDeposit: '100', balance: '500'};
+      var a = new Account(obj);
 
-      expect(t).to.be.okay;
-      expect(t).to.be.instanceof(Transfer);
-      expect(t.amount).to.equal(50.00);
-      expect(t.fee).to.equal(25);
-      expect(t.date).to.be.instanceof(Date);
-      expect(t.toAccountId).to.be.instanceof(Mongo.ObjectID);
-      expect(t.fromAccountId).to.be.instanceof(Mongo.ObjectID);
+      expect(a).to.be.okay;
+      expect(a).to.be.instanceof(Account);
+      expect(a.name).to.equal('Dakota Jane');
+      expect(a.photo).to.equal('http://.123');
+      expect(a.accountType).to.equal('savings');
+      expect(a.color).to.equal('blue');
+      expect(a.dateCreated).to.be.instanceof(Date);
+      expect(a.pin).to.equal(1234);
+      expect(a.initDeposit).to.equal(100);
+      expect(a.balance).to.equal(500);
     });
   });
-  describe('.create', function(){
-    it('should create a new transfer and save it to the database', function(done){
-      var obj = {amount:'50', date: '2014-8-8', fee: '25', 
-      toAccountId: Mongo.ObjectID().toString(), 
-      fromAccountId: Mongo.ObjectID().toString()};
-      
-      Transfer.create(obj, function(transfer){
-        expect(transfer).to.be.instanceof(Transfer);
-        expect(transfer._id).to.be.instanceof(Mongo.ObjectID);
+  describe('#create', function(){
+    it('should create a new account and save it to the database', function(done){
+      var obj = {name: 'Dakota Jane', photo: 'http://.123', accountType: 'savings', color: 'blue', 
+        dateCreated: '2012-8-8', pin: '1234', initDeposit: '100', balance: '500'};
+      var account = new Account(obj);
+      account.create(function(result){
+        expect(account).to.be.instanceof(Account);
+        expect(account._id).to.be.instanceof(Mongo.ObjectID);
         done();
       });
     });
-  
   });
-  describe('.findByAccountId', function(){
-    it('should find transfers by the toAccountId and fromAccountId', function(done){
+
+  describe('.findById', function(){
+    it('should find an account', function(done){
       var accountId = '53e5659ee1eb2778810b9d4a';
-      Transfer.findByAccountId(accountId, function(err, transfers){
-        expect(transfers).to.have.length.gt(0);
+      Account.findById(accountId, function(err, account){
+        expect(account).to.be.instanceof(Account);
         done();
       });
     });
