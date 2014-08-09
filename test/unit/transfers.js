@@ -4,7 +4,7 @@
 'use strict';
 
 var expect    = require('chai').expect;
-var Account  = require('../../app/models/account');
+var Transfer  = require('../../app/models/transfer');
 var dbConnect = require('../../app/lib/mongodb');
 var cp        = require('child_process');
 var db        = 'bankr-test';
